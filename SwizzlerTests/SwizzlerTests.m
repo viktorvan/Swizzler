@@ -34,7 +34,9 @@ static BOOL calledSwizzleMethod;
 - (void)setUp
 {
   [super setUp];
-  swizzler = [[Swizzler alloc] init];
+  swizzler = [[Swizzler alloc] initWithSelector:@selector(aMethod)
+                                          class:[TestClass class]
+                                          class:[self class]];
   calledSwizzleMethod = NO;
 }
 
@@ -42,7 +44,6 @@ static BOOL calledSwizzleMethod;
 
 {
   [super tearDown];
-  [swizzler deSwizzle];
   [TestClass resetNumMethodCalls];
 }
 
@@ -52,9 +53,9 @@ static BOOL calledSwizzleMethod;
 {
   expect(calledSwizzleMethod).to.beFalsy();
   
-  [self performSwizzling];
-  
-  [TestClass aMethod];
+  [swizzler doWhileSwizzled:^{
+    [TestClass aMethod];
+  }];
   
   expect(calledSwizzleMethod).to.beTruthy();
 }
@@ -63,54 +64,29 @@ static BOOL calledSwizzleMethod;
 {
   expect([TestClass didCallMethod]).to.beFalsy();
   
-  [self performSwizzling];
-  
-  [TestClass aMethod];
+  [swizzler doWhileSwizzled:^{
+    [TestClass aMethod];
+  }];
   
   expect([TestClass didCallMethod]).to.beFalsy();
 }
 
 - (void)testCannotSwizzleIfAlreadySwizzled
 {
-  [self performSwizzling];
-  expect(^{
-    [self performSwizzling];
-  }).to.raise(@"NSInternalInconsistencyException");
+  [swizzler doWhileSwizzled:^{
+    expect(^{
+      [swizzler doWhileSwizzled:^{ /* do nothing */ }];
+    }).to.raise(@"NSInternalInconsistencyException");
+  }];
 }
 
-- (void)testDeSwizzlingShouldAlwaysLeaveClassInDeSwizzledState {
-  expect([TestClass didCallMethod]).to.beFalsy();
-  [self performSwizzling];
-  [swizzler deSwizzle];
-  
-  [TestClass aMethod];
-  
-  expect([TestClass numCallsToMethod]).to.equal(1);
-  
-  [swizzler deSwizzle];
-  
-  [TestClass aMethod];
-  
-  expect([TestClass numCallsToMethod]).to.equal(2);
-}
-
-- (void)testInvokingOriginalMethodAfterDeSwizzlingShouldInvokeOriginalMethod
-{
+- (void)testInvokingOriginalMethodAfterDoWhileSwizzledShouldInvokeOriginalMethod {
   expect([TestClass didCallMethod]).to.beFalsy();
   
-  [self performSwizzling];
-  [swizzler deSwizzle];
+  [swizzler doWhileSwizzled:^{ /* do nothing */ }];
   
   [TestClass aMethod];
-  
   expect([TestClass didCallMethod]).to.beTruthy();
-}
-
-#pragma mark Private methods
-
-- (void)performSwizzling
-{
-  [swizzler swizzle:@selector(aMethod) class:[TestClass class] class:[self class]];
 }
 
 @end

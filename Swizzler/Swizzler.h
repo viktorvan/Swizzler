@@ -8,9 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^ActionBlock)(void);
+
 @interface Swizzler : NSObject
 
-- (void) swizzle:(SEL)selector class:(Class)originalClass class:(Class)swizzleClass;
-- (void) deSwizzle;
+- (instancetype) init __attribute__((unavailable("init not available")));
+- (instancetype) initWithSelector:(SEL)theSelector
+                            class:(Class)theTargetClass
+                            class:(Class)theSwizzleClass;
+
+- (void) doWhileSwizzled:(ActionBlock) anAction;
 
 @end

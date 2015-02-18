@@ -11,26 +11,50 @@
 
 @interface Swizzler ()
 
-@property (nonatomic) Method original;
-@property (nonatomic) Method swizzle;
+@property (nonatomic) SEL selector;
+@property (nonatomic) Class targetClass;
+@property (nonatomic) Class swizzleClass;
+
+@property (nonatomic) Method targetMethod;
+@property (nonatomic) Method swizzleMethod;
 
 @end
 
 @implementation Swizzler
 
-- (void) swizzle:(SEL)selector class:(Class)originalClass class:(Class)swizzleClass
+- (instancetype) initWithSelector:(SEL)theSelector
+                            class:(Class)theTargetClass
+                            class:(Class)theSwizzleClass
+{
+  if (self = [super init]) {
+    self.selector = theSelector;
+    self.targetClass = theTargetClass;
+    self.swizzleClass = theSwizzleClass;
+  }
+  
+  return self;
+}
+
+- (void) doWhileSwizzled:(ActionBlock)anAction
+{
+  [self swizzle];
+  anAction();
+  [self deSwizzle];
+}
+
+- (void) swizzle
 {
   [self assertSwizzleNotInProgress];
   
-  self.original = class_getClassMethod(originalClass, selector);
-  self.swizzle = class_getClassMethod(swizzleClass, selector);
-  method_exchangeImplementations(self.original, self.swizzle);
+  self.targetMethod = class_getClassMethod(self.targetClass, self.selector);
+  self.swizzleMethod = class_getClassMethod(self.swizzleClass, self.selector);
+  method_exchangeImplementations(self.targetMethod, self.swizzleMethod);
 }
 
 - (void) deSwizzle
 {
   if ([self isSwizzleInProgress]) {
-    method_exchangeImplementations(self.original, self.swizzle);
+    method_exchangeImplementations(self.targetMethod, self.swizzleMethod);
     [self resetMethods];    
   }
 }
@@ -42,13 +66,13 @@
 
 - (BOOL)isSwizzleInProgress
 {
-  return self.original && self.swizzle;
+  return self.targetMethod && self.swizzleMethod;
 }
 
 - (void)resetMethods
 {
-  self.original = nil;
-  self.swizzle = nil;
+  self.targetMethod = nil;
+  self.swizzleMethod = nil;
 }
 
 @end
