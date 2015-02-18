@@ -49,7 +49,7 @@ static BOOL calledSwizzleMethod;
 
 #pragma mark Tests
 
-- (void)testInvokingOriginalMethodAfterSwizzlingShouldInvokeSwizzleMethod
+- (void)testUsesSwizzledMethodWhileSwizzled
 {
   expect(calledSwizzleMethod).to.beFalsy();
   
@@ -60,7 +60,7 @@ static BOOL calledSwizzleMethod;
   expect(calledSwizzleMethod).to.beTruthy();
 }
 
-- (void)testInvokingOriginalMethodAfterSwizzlingShouldNotInvokeOriginalMethod
+- (void)testDoesNotUseOriginalMethodWhileSwizzled
 {
   expect([TestClass didCallMethod]).to.beFalsy();
   
@@ -71,6 +71,15 @@ static BOOL calledSwizzleMethod;
   expect([TestClass didCallMethod]).to.beFalsy();
 }
 
+- (void)testUsesOriginalMethodAfterDoWhileSwizzled {
+  [swizzler doWhileSwizzled:^{ /* do nothing */ }];
+
+  expect([TestClass didCallMethod]).to.beFalsy();
+  
+  [TestClass aMethod];
+  expect([TestClass didCallMethod]).to.beTruthy();
+}
+
 - (void)testCannotSwizzleIfAlreadySwizzled
 {
   [swizzler doWhileSwizzled:^{
@@ -78,15 +87,6 @@ static BOOL calledSwizzleMethod;
       [swizzler doWhileSwizzled:^{ /* do nothing */ }];
     }).to.raise(@"NSInternalInconsistencyException");
   }];
-}
-
-- (void)testInvokingOriginalMethodAfterDoWhileSwizzledShouldInvokeOriginalMethod {
-  expect([TestClass didCallMethod]).to.beFalsy();
-  
-  [swizzler doWhileSwizzled:^{ /* do nothing */ }];
-  
-  [TestClass aMethod];
-  expect([TestClass didCallMethod]).to.beTruthy();
 }
 
 @end
