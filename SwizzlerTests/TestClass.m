@@ -10,4 +10,16 @@
 
 @implementation TestClass
 
+static BOOL methodCalled = NO;
+
++ (void) aMethod
+{
+  methodCalled = YES;
+}
+
++ (BOOL)didCallMethod
+{
+  return methodCalled;
+}
+
 @end

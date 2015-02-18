@@ -6,35 +6,44 @@
 //  Copyright (c) 2015 Viktor Andersson. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#define HC_SHORTHAND
+#import <OCHamcrest/OCHamcrest.h>
+#import <OCMockito/OCMockito.h>
 #import <XCTest/XCTest.h>
+#define EXP_SHORTHAND
+#import <Expecta/Expecta.h>
+#import "TestClass.h"
+#import "Swizzler.h"
 
 @interface SwizzlerTests : XCTestCase
 
 @end
 
-@implementation SwizzlerTests
+static BOOL calledSwizzleMethod;
 
-- (void)setUp {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+@implementation SwizzlerTests {
+  Swizzler *swizzler;
 }
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
+- (void)setUp
+{
+  swizzler = [[Swizzler alloc] init];
+  calledSwizzleMethod = NO;
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+- (void)testInvokingOriginalMethodAfterSwizzlingShouldExecuteSwizzleMethod {
+  expect(calledSwizzleMethod).to.beFalsy();
+  
+  [swizzler swizzleMethod:@selector(aMethod) class:[TestClass class] class:[self class]];
+  
+  [TestClass aMethod];
+  
+  expect(calledSwizzleMethod).to.beTruthy();
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
++ (void)aMethod
+{
+  calledSwizzleMethod = YES;
 }
 
 @end

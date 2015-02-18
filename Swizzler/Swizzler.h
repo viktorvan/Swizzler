@@ -10,4 +10,6 @@
 
 @interface Swizzler : NSObject
 
+- (void) swizzleMethod:(SEL)selector class:(Class)originalClass class:(Class)swizzleClass;
+
 @end

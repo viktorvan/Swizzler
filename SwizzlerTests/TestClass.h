@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TestProtocol.h"
 
 @interface TestClass : NSObject
+
++ (BOOL) didCallMethod;
+
++ (void) aMethod;
 
 @end

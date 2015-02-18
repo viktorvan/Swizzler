@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Viktor Andersson. All rights reserved.
 //
 
-#ifndef Swizzler_TestProtocol_h
-#define Swizzler_TestProtocol_h
+@protocol TestProtocol <NSObject>
 
++ (void)aMethod;
 
-#endif
+@end
