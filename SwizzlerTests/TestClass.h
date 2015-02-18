@@ -11,8 +11,9 @@
 
 @interface TestClass : NSObject
 
++ (void) resetNumMethodCalls;
 + (BOOL) didCallMethod;
-
++ (int) numCallsToMethod;
 + (void) aMethod;
 
 @end

@@ -10,16 +10,26 @@
 
 @implementation TestClass
 
-static BOOL methodCalled = NO;
+static int numMethodCalls = 0;
 
 + (void) aMethod
 {
-  methodCalled = YES;
+  ++numMethodCalls;
 }
 
 + (BOOL)didCallMethod
 {
-  return methodCalled;
+  return numMethodCalls > 0;
+}
+
++ (int)numCallsToMethod
+{
+  return numMethodCalls;
+}
+
++ (void)resetNumMethodCalls
+{
+  numMethodCalls = 0;
 }
 
 @end

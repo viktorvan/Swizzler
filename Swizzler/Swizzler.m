@@ -20,6 +20,8 @@
 
 - (void) swizzleMethod:(SEL)selector class:(Class)originalClass class:(Class)swizzleClass
 {
+  [self assertSwizzleNotInProgress];
+  
   self.original = class_getClassMethod(originalClass, selector);
   self.swizzle = class_getClassMethod(swizzleClass, selector);
   method_exchangeImplementations(self.original, self.swizzle);
@@ -27,7 +29,26 @@
 
 - (void) deSwizzle
 {
-  method_exchangeImplementations(self.original, self.swizzle);
+  if ([self isSwizzleInProgress]) {
+    method_exchangeImplementations(self.original, self.swizzle);
+    [self resetMethods];    
+  }
+}
+
+- (void)assertSwizzleNotInProgress
+{
+  NSAssert(![self isSwizzleInProgress], @"Cannot swizzle when already swizzled");
+}
+
+- (BOOL)isSwizzleInProgress
+{
+  return self.original && self.swizzle;
+}
+
+- (void)resetMethods
+{
+  self.original = nil;
+  self.swizzle = nil;
 }
 
 @end
