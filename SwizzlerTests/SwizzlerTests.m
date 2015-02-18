@@ -9,9 +9,10 @@
 #define HC_SHORTHAND
 #import <OCHamcrest/OCHamcrest.h>
 #import <OCMockito/OCMockito.h>
-#import <XCTest/XCTest.h>
 #define EXP_SHORTHAND
 #import <Expecta/Expecta.h>
+
+#import <XCTest/XCTest.h>
 #import "TestClass.h"
 #import "Swizzler.h"
 
@@ -109,7 +110,7 @@ static BOOL calledSwizzleMethod;
 
 - (void)performSwizzling
 {
-  [swizzler swizzleMethod:@selector(aMethod) class:[TestClass class] class:[self class]];
+  [swizzler swizzle:@selector(aMethod) class:[TestClass class] class:[self class]];
 }
 
 @end
