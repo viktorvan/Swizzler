@@ -38,8 +38,12 @@
 - (void) doWhileSwizzled:(ActionBlock)anAction
 {
   [self swizzle];
-  anAction();
-  [self deSwizzle];
+  @try {
+    anAction();
+  }
+  @finally {
+    [self deSwizzle];
+  }
 }
 
 - (void) swizzle

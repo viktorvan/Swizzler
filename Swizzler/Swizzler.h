@@ -18,5 +18,6 @@ typedef void (^ActionBlock)(void);
                             class:(Class)theSwizzleClass;
 
 - (void) doWhileSwizzled:(ActionBlock) anAction;
+- (void) deSwizzle;
 
 @end

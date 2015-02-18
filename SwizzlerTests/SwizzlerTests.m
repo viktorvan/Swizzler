@@ -44,6 +44,7 @@ static BOOL calledSwizzleMethod;
 
 {
   [super tearDown];
+  [swizzler deSwizzle];
   [TestClass resetNumMethodCalls];
 }
 
@@ -75,7 +76,6 @@ static BOOL calledSwizzleMethod;
   [swizzler doWhileSwizzled:^{ /* do nothing */ }];
 
   expect([TestClass didCallMethod]).to.beFalsy();
-  
   [TestClass aMethod];
   expect([TestClass didCallMethod]).to.beTruthy();
 }
@@ -87,6 +87,24 @@ static BOOL calledSwizzleMethod;
       [swizzler doWhileSwizzled:^{ /* do nothing */ }];
     }).to.raise(@"NSInternalInconsistencyException");
   }];
+}
+
+- (void)testShouldDeSwizzleIfExceptionIsThrownByActionBlock {
+  @try {
+    [swizzler doWhileSwizzled:^{
+      [[NSException exceptionWithName:@"TestException" reason:@"Test" userInfo:nil] raise];
+    }];
+  }
+  @catch (NSException *exception) {
+    /* We are expecting a TestException here, otherwise we raise the exception again. */
+    if (![exception.name isEqualToString:@"TestException"]) {
+      [exception raise];
+    }
+  }
+  
+  expect([TestClass didCallMethod]).to.beFalsy();
+  [TestClass aMethod];
+  expect([TestClass didCallMethod]).to.beTruthy();
 }
 
 @end
