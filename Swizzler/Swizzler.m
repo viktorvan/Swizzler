@@ -8,12 +8,13 @@
 
 #import "Swizzler.h"
 #import <objc/runtime.h>
+#import "SwizzlerValidator.h"
 
 @interface Swizzler ()
 
 @property (nonatomic) SEL selector;
-@property (nonatomic) Class targetClass;
-@property (nonatomic) Class swizzleClass;
+@property (strong, nonatomic) Class targetClass;
+@property (strong, nonatomic) Class swizzleClass;
 
 @property (nonatomic) Method targetMethod;
 @property (nonatomic) Method swizzleMethod;
@@ -22,15 +23,25 @@
 
 @implementation Swizzler
 
+- (instancetype) initWithSelector:(SEL)theSelector class:(Class)theTargetClass class:(Class)theSwizzleClass
+{
+  return [self initWithSelector:theSelector
+                          class:theTargetClass
+                          class:theSwizzleClass
+                      validator:[[SwizzlerValidator alloc] init]];
+}
+
 - (instancetype) initWithSelector:(SEL)theSelector
                             class:(Class)theTargetClass
                             class:(Class)theSwizzleClass
+                        validator:(SwizzlerValidator *)aValidator
 {
   if (self = [super init]) {
     self.selector = theSelector;
     self.targetClass = theTargetClass;
     self.swizzleClass = theSwizzleClass;
     
+    [aValidator validate:self];
     [self validateThatTargetAndSwizzleClassRespondsToSelector];
   }
   

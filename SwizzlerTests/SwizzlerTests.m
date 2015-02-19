@@ -15,6 +15,7 @@
 #import <XCTest/XCTest.h>
 #import "TestClass.h"
 #import "Swizzler.h"
+#import "SwizzlerValidator.h"
 
 @interface SwizzlerTests : XCTestCase
 
@@ -24,6 +25,10 @@ static BOOL calledSwizzleMethod;
 
 @implementation SwizzlerTests {
   Swizzler *swizzler;
+  SwizzlerValidator *validator;
+  SEL selector;
+  id targetClass;
+  id swizzleClass;
 }
 
 + (void)aMethod
@@ -34,9 +39,14 @@ static BOOL calledSwizzleMethod;
 - (void)setUp
 {
   [super setUp];
-  swizzler = [[Swizzler alloc] initWithSelector:@selector(aMethod)
-                                          class:[TestClass class]
-                                          class:[self class]];
+  selector = @selector(aMethod);
+  targetClass = [TestClass class];
+  swizzleClass = [self class];
+  validator = MKTMock([SwizzlerValidator class]);
+  swizzler = [[Swizzler alloc] initWithSelector:selector
+                                          class:targetClass
+                                          class:swizzleClass
+                                      validator:validator];
   calledSwizzleMethod = NO;
 }
 
@@ -105,6 +115,14 @@ static BOOL calledSwizzleMethod;
   expect([TestClass didCallMethod]).to.beFalsy();
   [TestClass aMethod];
   expect([TestClass didCallMethod]).to.beTruthy();
+}
+
+- (void)testShouldCallValidatorWhenInitializing {
+  [swizzler doWhileSwizzled:^{
+    // Do nothing.
+  }];
+  
+  [MKTVerify(validator) validate:swizzler];
 }
 
 @end

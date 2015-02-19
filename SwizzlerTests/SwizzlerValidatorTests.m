@@ -1,5 +1,5 @@
 //
-//  SwizzlerInitializationTests.m
+//  SwizzlerValidatorTests.m
 //  Swizzler
 //
 //  Created by Viktor Andersson on 19/02/15.
@@ -13,11 +13,11 @@
 #import "Swizzler.h"
 #import "TestClass.h"
 
-@interface SwizzlerInitializationTests : XCTestCase
+@interface SwizzlerValidatorTests : XCTestCase
 
 @end
 
-@implementation SwizzlerInitializationTests
+@implementation SwizzlerValidatorTests
 
 + (void)notInTargetClass
 {
