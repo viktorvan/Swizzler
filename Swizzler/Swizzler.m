@@ -27,6 +27,18 @@
                             class:(Class)theSwizzleClass
 {
   if (self = [super init]) {
+    if (![theTargetClass respondsToSelector:theSelector]) {
+      [[NSException exceptionWithName:@"UndefinedSelectorException"
+                               reason:[NSString stringWithFormat:@"%@ does not respond to theSelector", [theTargetClass description]]
+                             userInfo:nil] raise];
+    }
+    
+    if (![theSwizzleClass respondsToSelector:theSelector]) {
+      [[NSException exceptionWithName:@"UndefinedSelectorException"
+                               reason:[NSString stringWithFormat:@"%@ does not respond to theSelector", [theSwizzleClass description]]
+                             userInfo:nil] raise];
+    }
+    
     self.selector = theSelector;
     self.targetClass = theTargetClass;
     self.swizzleClass = theSwizzleClass;
@@ -59,7 +71,7 @@
 {
   if ([self isSwizzleInProgress]) {
     method_exchangeImplementations(self.targetMethod, self.swizzleMethod);
-    [self resetMethods];    
+    [self resetMethods];
   }
 }
 

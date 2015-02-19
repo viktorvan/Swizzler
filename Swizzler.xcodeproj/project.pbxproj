@@ -13,6 +13,7 @@
 		772DFDFD1A8E2683008F30F4 /* libSwizzler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 772DFDF11A8E2683008F30F4 /* libSwizzler.a */; };
 		7737B3871A8E333000CE13B0 /* SwizzlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7737B3861A8E333000CE13B0 /* SwizzlerTests.m */; };
 		7774405E1A94E60B00233D57 /* TestClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774405D1A94E60B00233D57 /* TestClass.m */; };
+		77A689C91A96041F00424113 /* SwizzlerInitializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A689C81A96041F00424113 /* SwizzlerInitializationTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		7737B3861A8E333000CE13B0 /* SwizzlerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwizzlerTests.m; sourceTree = "<group>"; };
 		7774405C1A94E60B00233D57 /* TestClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestClass.h; sourceTree = "<group>"; };
 		7774405D1A94E60B00233D57 /* TestClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestClass.m; sourceTree = "<group>"; };
+		77A689C81A96041F00424113 /* SwizzlerInitializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwizzlerInitializationTests.m; sourceTree = "<group>"; };
 		88CD0FE160EFB9E18E6BBCE8 /* libPods-SwizzlerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwizzlerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -127,6 +129,7 @@
 				7774405D1A94E60B00233D57 /* TestClass.m */,
 				772DFE011A8E2683008F30F4 /* Supporting Files */,
 				7737B3861A8E333000CE13B0 /* SwizzlerTests.m */,
+				77A689C81A96041F00424113 /* SwizzlerInitializationTests.m */,
 			);
 			path = SwizzlerTests;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77A689C91A96041F00424113 /* SwizzlerInitializationTests.m in Sources */,
 				7774405E1A94E60B00233D57 /* TestClass.m in Sources */,
 				7737B3871A8E333000CE13B0 /* SwizzlerTests.m in Sources */,
 			);
