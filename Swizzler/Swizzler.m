@@ -12,10 +12,6 @@
 
 @interface Swizzler ()
 
-@property (nonatomic) SEL selector;
-@property (strong, nonatomic) Class targetClass;
-@property (strong, nonatomic) Class swizzleClass;
-
 @property (nonatomic) Method targetMethod;
 @property (nonatomic) Method swizzleMethod;
 
@@ -37,35 +33,14 @@
                         validator:(SwizzlerValidator *)aValidator
 {
   if (self = [super init]) {
-    self.selector = theSelector;
-    self.targetClass = theTargetClass;
-    self.swizzleClass = theSwizzleClass;
+    _selector = theSelector;
+    _targetClass = theTargetClass;
+    _swizzleClass = theSwizzleClass;
     
     [aValidator validate:self];
-    [self validateThatTargetAndSwizzleClassRespondsToSelector];
   }
   
   return self;
-}
-
-- (void) validateThatTargetAndSwizzleClassRespondsToSelector
-{
-  [self validateThatClass:self.targetClass respondsToSelector:self.selector];
-  [self validateThatClass:self.swizzleClass respondsToSelector:self.selector];
-}
-
-- (void) validateThatClass:(Class)aClass respondsToSelector:(SEL)aSelector
-{
-  if (![aClass respondsToSelector:aSelector]) {
-    [self raiseUndefinedSelectorExceptionFor:aSelector class:aClass];
-  }
-}
-
-- (void) raiseUndefinedSelectorExceptionFor:(SEL)aSelector class:(Class)aClass
-{
-  [[NSException exceptionWithName:@"UndefinedSelectorException"
-                          reason:[NSString stringWithFormat:@"%@ does not respond to theSelector", [aClass description]]
-                         userInfo:nil] raise];
 }
 
 - (void) doWhileSwizzled:(ActionBlock)anAction

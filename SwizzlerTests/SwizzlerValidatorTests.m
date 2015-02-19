@@ -10,6 +10,7 @@
 #import <Expecta/Expecta.h>
 
 #import <XCTest/XCTest.h>
+#import "SwizzlerValidator.h"
 #import "Swizzler.h"
 #import "TestClass.h"
 
@@ -17,45 +18,102 @@
 
 @end
 
-@implementation SwizzlerValidatorTests
+@implementation SwizzlerValidatorTests {
+  id targetClass;
+  id swizzleClass;
+  SEL notDefinedInTargetClass;
+  SEL notDefinedInSwizzleClass;
+  SwizzlerValidator *validator;
+}
 
+#pragma mark Swizzle Selector
 + (void)notInTargetClass
 {
+}
+
+#pragma mark Tests
+
+- (void)setUp
+{
+  [super setUp];
+  targetClass = [TestClass class];
+  swizzleClass = [self class];
+  notDefinedInTargetClass = @selector(notInTargetClass);
+  notDefinedInSwizzleClass = @selector(aMethod);
+  validator = [[SwizzlerValidator alloc] init];
 }
 
 - (void)testRaisesExceptionIfTargetClassNotRespondsToSelector
 {
   NSException *ex;
   @try {
-    Swizzler *notUsed = [[Swizzler alloc] initWithSelector:@selector(notInTargetClass)
-                                                     class:[TestClass class]
-                                                     class:[self class]];
-    #pragma unused(notUsed)
+    [validator validate:[self swizzlerWithSelector:notDefinedInTargetClass]];
   }
   @catch (NSException *exception) {
     ex = exception;
   }
   
-  expect(ex.name).to.equal(@"UndefinedSelectorException");
-  expect(ex.reason).to.contain([[TestClass class] description]);
+  expect(ex.name).to.equal(UndefinedSelectorException);
 }
 
 - (void)testRaisesExceptionIfSwizzleClassNotRespondsToSelector
 {
   NSException *ex;
   @try {
-    Swizzler *notUsed = [[Swizzler alloc] initWithSelector:@selector(aMethod)
-                                                     class:[TestClass class]
-                                                     class:[self class]];
-    #pragma unused(notUsed)
+    [validator validate:[self swizzlerWithSelector:notDefinedInSwizzleClass]];
   }
   @catch (NSException *exception) {
     ex = exception;
   }
   
-  expect(ex.name).to.equal(@"UndefinedSelectorException");
   NSString *expected = [NSString stringWithFormat:@"%@", [[self class] description]];
   expect(ex.reason).to.contain(expected);
+}
+
+- (void)testExceptionReasonContainsSelectorName
+{
+  NSException *ex;
+  @try {
+    [validator validate:[self swizzlerWithSelector:notDefinedInTargetClass]];
+  }
+  @catch (NSException *exception) {
+    ex = exception;
+  }
+  
+  expect(ex.reason).to.contain(NSStringFromSelector(notDefinedInTargetClass));
+}
+
+- (void)testExceptionReasonContainsTargetClassName
+{
+  NSException *ex;
+  @try {
+    [validator validate:[self swizzlerWithSelector:notDefinedInTargetClass]];
+  }
+  @catch (NSException *exception) {
+    ex = exception;
+  }
+  
+  expect(ex.reason).to.contain([targetClass description]);
+}
+
+- (void)testExceptionReasonContainsSwizzleClassName
+{
+  NSException *ex;
+  @try {
+    [validator validate:[self swizzlerWithSelector:notDefinedInSwizzleClass]];
+  }
+  @catch (NSException *exception) {
+    ex = exception;
+  }
+  
+  expect(ex.reason).to.contain([swizzleClass description]);
+}
+
+- (Swizzler *)swizzlerWithSelector:(SEL)theSelector
+{
+  return [[Swizzler alloc] initWithSelector:theSelector
+                                      class:targetClass
+                                      class:swizzleClass];
 }
 
 @end

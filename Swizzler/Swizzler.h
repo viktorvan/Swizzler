@@ -20,6 +20,10 @@ typedef void (^ActionBlock)(void);
  */
 @interface Swizzler : NSObject
 
+@property (nonatomic, readonly) SEL selector;
+@property (strong, nonatomic, readonly) id targetClass;
+@property (strong, nonatomic, readonly) id swizzleClass;
+
 - (instancetype) init __attribute__((unavailable("init not available")));
 
 /*!

@@ -9,7 +9,10 @@
 #import <Foundation/Foundation.h>
 @class Swizzler;
 
+
 @interface SwizzlerValidator : NSObject
+
+FOUNDATION_EXPORT NSString *const UndefinedSelectorException;
 
 - (void) validate:(Swizzler *)aSwizzler;
 

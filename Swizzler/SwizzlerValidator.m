@@ -9,11 +9,11 @@
 #import "SwizzlerValidator.h"
 #import "Swizzler.h"
 
-@interface Swizzler ()
+NSString *const UndefinedSelectorException = @"UndefinedSelectorException";
 
-@property (nonatomic) SEL selector;
-@property (nonatomic) Class targetClass;
-@property (nonatomic) Class swizzleClass;
+@interface SwizzlerValidator ()
+
+@property (strong, nonatomic) Swizzler *itsSwizzler;
 
 @end
 
@@ -21,9 +21,31 @@
 
 - (void) validate:(Swizzler *)aSwizzler
 {
-  
+  self.itsSwizzler = aSwizzler;
+  [self validateThatTargetAndSwizzleClassRespondsToSelector];
 }
 
+- (void) validateThatTargetAndSwizzleClassRespondsToSelector
+{
+  [self validateClass:self.itsSwizzler.targetClass];
+  [self validateClass:self.itsSwizzler.swizzleClass];
+}
+
+- (void) validateClass:(id)aClass
+{
+  if (![aClass respondsToSelector:self.itsSwizzler.selector]) {
+    [self raiseUndefinedSelectorException:aClass];
+  }
+}
+
+- (void) raiseUndefinedSelectorException:(id)aClass
+{
+  [[NSException exceptionWithName:UndefinedSelectorException
+                           reason:[NSString stringWithFormat:@"%@ does not respond to %@",
+                                   [aClass description],
+                                   NSStringFromSelector(self.itsSwizzler.selector)]
+                         userInfo:nil] raise];
+}
 
 
 @end
