@@ -27,24 +27,34 @@
                             class:(Class)theSwizzleClass
 {
   if (self = [super init]) {
-    if (![theTargetClass respondsToSelector:theSelector]) {
-      [[NSException exceptionWithName:@"UndefinedSelectorException"
-                               reason:[NSString stringWithFormat:@"%@ does not respond to theSelector", [theTargetClass description]]
-                             userInfo:nil] raise];
-    }
-    
-    if (![theSwizzleClass respondsToSelector:theSelector]) {
-      [[NSException exceptionWithName:@"UndefinedSelectorException"
-                               reason:[NSString stringWithFormat:@"%@ does not respond to theSelector", [theSwizzleClass description]]
-                             userInfo:nil] raise];
-    }
-    
     self.selector = theSelector;
     self.targetClass = theTargetClass;
     self.swizzleClass = theSwizzleClass;
+    
+    [self validateThatTargetAndSwizzleClassRespondsToSelector];
   }
   
   return self;
+}
+
+- (void) validateThatTargetAndSwizzleClassRespondsToSelector
+{
+  [self validateThatClass:self.targetClass respondsToSelector:self.selector];
+  [self validateThatClass:self.swizzleClass respondsToSelector:self.selector];
+}
+
+- (void) validateThatClass:(Class)aClass respondsToSelector:(SEL)aSelector
+{
+  if (![aClass respondsToSelector:aSelector]) {
+    [self raiseUndefinedSelectorExceptionFor:aSelector class:aClass];
+  }
+}
+
+- (void) raiseUndefinedSelectorExceptionFor:(SEL)aSelector class:(Class)aClass
+{
+  [[NSException exceptionWithName:@"UndefinedSelectorException"
+                          reason:[NSString stringWithFormat:@"%@ does not respond to theSelector", [aClass description]]
+                         userInfo:nil] raise];
 }
 
 - (void) doWhileSwizzled:(ActionBlock)anAction
