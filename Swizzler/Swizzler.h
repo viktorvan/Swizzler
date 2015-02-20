@@ -16,7 +16,7 @@ typedef void (^ActionBlock)(void);
 
 /*!
  * @class Swizzler
- * @discussion Swizzles class methods.
+ * @brief Swizzles class methods.
  */
 @interface Swizzler : NSObject
 
