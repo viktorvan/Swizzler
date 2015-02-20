@@ -8,13 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		01638D9D4D6BF58D18B89FFD /* libPods-SwizzlerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88CD0FE160EFB9E18E6BBCE8 /* libPods-SwizzlerTests.a */; };
-		772DFDF51A8E2683008F30F4 /* Swizzler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 772DFDF41A8E2683008F30F4 /* Swizzler.h */; };
-		772DFDF71A8E2683008F30F4 /* Swizzler.m in Sources */ = {isa = PBXBuildFile; fileRef = 772DFDF61A8E2683008F30F4 /* Swizzler.m */; };
 		772DFDFD1A8E2683008F30F4 /* libSwizzler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 772DFDF11A8E2683008F30F4 /* libSwizzler.a */; };
 		7737B3871A8E333000CE13B0 /* SwizzlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7737B3861A8E333000CE13B0 /* SwizzlerTests.m */; };
 		7774405E1A94E60B00233D57 /* TestClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774405D1A94E60B00233D57 /* TestClass.m */; };
+		77A5EF501A979ECB00581E76 /* Swizzler.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A5EF4C1A979ECB00581E76 /* Swizzler.m */; };
+		77A5EF511A979ECB00581E76 /* SwizzlerValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A5EF4E1A979ECB00581E76 /* SwizzlerValidator.m */; };
 		77A689C91A96041F00424113 /* SwizzlerValidatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A689C81A96041F00424113 /* SwizzlerValidatorTests.m */; };
-		77A689CC1A96112E00424113 /* SwizzlerValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A689CB1A96112E00424113 /* SwizzlerValidator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,7 +33,6 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				772DFDF51A8E2683008F30F4 /* Swizzler.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,17 +42,17 @@
 		178569AD449616E4153532B9 /* Pods-SwizzlerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwizzlerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwizzlerTests/Pods-SwizzlerTests.release.xcconfig"; sourceTree = "<group>"; };
 		74DEC4D1617C02FE42CA61A3 /* Pods-SwizzlerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwizzlerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwizzlerTests/Pods-SwizzlerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		772DFDF11A8E2683008F30F4 /* libSwizzler.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSwizzler.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		772DFDF41A8E2683008F30F4 /* Swizzler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Swizzler.h; sourceTree = "<group>"; };
-		772DFDF61A8E2683008F30F4 /* Swizzler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Swizzler.m; sourceTree = "<group>"; };
 		772DFDFC1A8E2683008F30F4 /* SwizzlerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwizzlerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		772DFE021A8E2683008F30F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7737B3851A8E2E1200CE13B0 /* TestProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestProtocol.h; sourceTree = "<group>"; };
 		7737B3861A8E333000CE13B0 /* SwizzlerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwizzlerTests.m; sourceTree = "<group>"; };
 		7774405C1A94E60B00233D57 /* TestClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestClass.h; sourceTree = "<group>"; };
 		7774405D1A94E60B00233D57 /* TestClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestClass.m; sourceTree = "<group>"; };
+		77A5EF4B1A979ECB00581E76 /* Swizzler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Swizzler.h; path = SwizzlerSource/Swizzler.h; sourceTree = "<group>"; };
+		77A5EF4C1A979ECB00581E76 /* Swizzler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Swizzler.m; path = SwizzlerSource/Swizzler.m; sourceTree = "<group>"; };
+		77A5EF4D1A979ECB00581E76 /* SwizzlerValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwizzlerValidator.h; path = SwizzlerSource/SwizzlerValidator.h; sourceTree = "<group>"; };
+		77A5EF4E1A979ECB00581E76 /* SwizzlerValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwizzlerValidator.m; path = SwizzlerSource/SwizzlerValidator.m; sourceTree = "<group>"; };
 		77A689C81A96041F00424113 /* SwizzlerValidatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwizzlerValidatorTests.m; sourceTree = "<group>"; };
-		77A689CA1A96112E00424113 /* SwizzlerValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwizzlerValidator.h; sourceTree = "<group>"; };
-		77A689CB1A96112E00424113 /* SwizzlerValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwizzlerValidator.m; sourceTree = "<group>"; };
 		88CD0FE160EFB9E18E6BBCE8 /* libPods-SwizzlerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwizzlerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -98,7 +96,7 @@
 		772DFDE81A8E2683008F30F4 = {
 			isa = PBXGroup;
 			children = (
-				772DFDF31A8E2683008F30F4 /* Swizzler */,
+				77A5EF4F1A979ECB00581E76 /* SwizzlerSource */,
 				772DFE001A8E2683008F30F4 /* SwizzlerTests */,
 				772DFDF21A8E2683008F30F4 /* Products */,
 				3F88A491BD5E50DBB414522A /* Pods */,
@@ -113,17 +111,6 @@
 				772DFDFC1A8E2683008F30F4 /* SwizzlerTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		772DFDF31A8E2683008F30F4 /* Swizzler */ = {
-			isa = PBXGroup;
-			children = (
-				772DFDF41A8E2683008F30F4 /* Swizzler.h */,
-				772DFDF61A8E2683008F30F4 /* Swizzler.m */,
-				77A689CA1A96112E00424113 /* SwizzlerValidator.h */,
-				77A689CB1A96112E00424113 /* SwizzlerValidator.m */,
-			);
-			path = Swizzler;
 			sourceTree = "<group>";
 		};
 		772DFE001A8E2683008F30F4 /* SwizzlerTests */ = {
@@ -145,6 +132,17 @@
 				772DFE021A8E2683008F30F4 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		77A5EF4F1A979ECB00581E76 /* SwizzlerSource */ = {
+			isa = PBXGroup;
+			children = (
+				77A5EF4B1A979ECB00581E76 /* Swizzler.h */,
+				77A5EF4C1A979ECB00581E76 /* Swizzler.m */,
+				77A5EF4D1A979ECB00581E76 /* SwizzlerValidator.h */,
+				77A5EF4E1A979ECB00581E76 /* SwizzlerValidator.m */,
+			);
+			name = SwizzlerSource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,8 +268,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77A689CC1A96112E00424113 /* SwizzlerValidator.m in Sources */,
-				772DFDF71A8E2683008F30F4 /* Swizzler.m in Sources */,
+				77A5EF511A979ECB00581E76 /* SwizzlerValidator.m in Sources */,
+				77A5EF501A979ECB00581E76 /* Swizzler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
