@@ -8,12 +8,9 @@
 
 #import "Swizzler.h"
 #import <objc/runtime.h>
+#import "SwizzlerValidator.h"
 
 @interface Swizzler ()
-
-@property (nonatomic) SEL selector;
-@property (nonatomic) Class targetClass;
-@property (nonatomic) Class swizzleClass;
 
 @property (nonatomic) Method targetMethod;
 @property (nonatomic) Method swizzleMethod;
@@ -22,39 +19,28 @@
 
 @implementation Swizzler
 
+- (instancetype) initWithSelector:(SEL)theSelector class:(Class)theTargetClass class:(Class)theSwizzleClass
+{
+  return [self initWithSelector:theSelector
+                          class:theTargetClass
+                          class:theSwizzleClass
+                      validator:[[SwizzlerValidator alloc] init]];
+}
+
 - (instancetype) initWithSelector:(SEL)theSelector
                             class:(Class)theTargetClass
                             class:(Class)theSwizzleClass
+                        validator:(SwizzlerValidator *)aValidator
 {
   if (self = [super init]) {
-    self.selector = theSelector;
-    self.targetClass = theTargetClass;
-    self.swizzleClass = theSwizzleClass;
+    _selector = theSelector;
+    _targetClass = theTargetClass;
+    _swizzleClass = theSwizzleClass;
     
-    [self validateThatTargetAndSwizzleClassRespondsToSelector];
+    [aValidator validate:self];
   }
   
   return self;
-}
-
-- (void) validateThatTargetAndSwizzleClassRespondsToSelector
-{
-  [self validateThatClass:self.targetClass respondsToSelector:self.selector];
-  [self validateThatClass:self.swizzleClass respondsToSelector:self.selector];
-}
-
-- (void) validateThatClass:(Class)aClass respondsToSelector:(SEL)aSelector
-{
-  if (![aClass respondsToSelector:aSelector]) {
-    [self raiseUndefinedSelectorExceptionFor:aSelector class:aClass];
-  }
-}
-
-- (void) raiseUndefinedSelectorExceptionFor:(SEL)aSelector class:(Class)aClass
-{
-  [[NSException exceptionWithName:@"UndefinedSelectorException"
-                          reason:[NSString stringWithFormat:@"%@ does not respond to theSelector", [aClass description]]
-                         userInfo:nil] raise];
 }
 
 - (void) doWhileSwizzled:(ActionBlock)anAction
